@@ -3,11 +3,13 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import io
 import json
 import re
+
 import pandas as pd
 from PIL import Image
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+import streamlit.components.v1 as components
 from groq import Groq
 
 # ReportLab PDF Imports
@@ -25,7 +27,7 @@ from reportlab.platypus import (
 )
 
 # -----------------------------------------------------------------------------
-# 1. Page Configuration & Mobile UI Styling
+# 1. Page Configuration & Title Override
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="Personal FinAI",
@@ -34,6 +36,17 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# Forces Chrome and web view to set the window title to "Personal FinAI"
+components.html(
+    """
+    <script>
+        window.parent.document.title = "Personal FinAI";
+    </script>
+    """,
+    height=0,
+)
+
+# Mobile UI Styling
 st.markdown(
     """
 <style>
