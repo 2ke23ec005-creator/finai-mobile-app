@@ -28,7 +28,7 @@ from reportlab.platypus import (
 # 1. Page Configuration & Mobile UI Styling
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="FinAI Mobile App",
+    page_title="Personal FinAI",
     page_icon="📱",
     layout="centered",
     initial_sidebar_state="collapsed",
@@ -167,14 +167,14 @@ class NumberedCanvas(canvas.Canvas):
     self.setFont("Helvetica-Bold", 8)
     self.setFillColor(colors.HexColor("#64748b"))
     self.drawString(
-        36, 762, "CONFIDENTIAL | PERSONAL FINANCIAL HEALTH & AUDIT REPORT"
+        36, 762, "CONFIDENTIAL | PERSONAL FINAI HEALTH & AUDIT REPORT"
     )
     self.setStrokeColor(colors.HexColor("#cbd5e1"))
     self.setLineWidth(0.5)
     self.line(36, 754, 576, 754)
 
     self.setFont("Helvetica", 8)
-    self.drawString(36, 25, "Generated via AI Financial Mobile App")
+    self.drawString(36, 25, "Generated via Personal FinAI App")
     page_str = f"Page {self._pageNumber} of {page_count}"
     self.drawRightString(576, 25, page_str)
     self.line(36, 35, 576, 35)
@@ -255,7 +255,7 @@ def generate_detailed_pdf_report(
       fontName="Helvetica-Bold",
   )
 
-  story.append(Paragraph("AI PERSONAL FINANCIAL AUDIT REPORT", title_style))
+  story.append(Paragraph("PERSONAL FINAI AUDIT REPORT", title_style))
   story.append(
       Paragraph(
           "Automated Expense Classification & Financial Growth Statement",
@@ -517,7 +517,7 @@ CATEGORIES = [
 st.markdown(
     """
 <div class="app-header">
-    <h2>📱 FinAI Mobile</h2>
+    <h2>📱 Personal FinAI</h2>
     <p>Smart Expense Tracking & Wealth Intelligence</p>
 </div>
 """,
@@ -1009,7 +1009,7 @@ with tab_ai:
   st.download_button(
       label="📥 Download PDF Statement",
       data=pdf_bytes,
-      file_name="Financial_Health_Statement.pdf",
+      file_name="Personal_FinAI_Statement.pdf",
       mime="application/pdf",
       type="primary",
   )
