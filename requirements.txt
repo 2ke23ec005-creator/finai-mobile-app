@@ -1,0 +1,6 @@
+streamlit
+groq
+pandas
+pillow
+plotly
+reportlab
