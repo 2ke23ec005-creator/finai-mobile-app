@@ -3,13 +3,11 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import io
 import json
 import re
-
 import pandas as pd
 from PIL import Image
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-import streamlit.components.v1 as components
 from groq import Groq
 
 # ReportLab PDF Imports
@@ -27,26 +25,15 @@ from reportlab.platypus import (
 )
 
 # -----------------------------------------------------------------------------
-# 1. Page Configuration & Title Override
+# 1. Page Configuration & Mobile UI Styling
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="Personal FinAI",
+    page_title="FinAI Mobile App",
     page_icon="📱",
     layout="centered",
     initial_sidebar_state="collapsed",
 )
 
-# Forces Chrome and web view to set the window title to "Personal FinAI"
-components.html(
-    """
-    <script>
-        window.parent.document.title = "Personal FinAI";
-    </script>
-    """,
-    height=0,
-)
-
-# Mobile UI Styling
 st.markdown(
     """
 <style>
@@ -180,14 +167,14 @@ class NumberedCanvas(canvas.Canvas):
     self.setFont("Helvetica-Bold", 8)
     self.setFillColor(colors.HexColor("#64748b"))
     self.drawString(
-        36, 762, "CONFIDENTIAL | PERSONAL FINAI HEALTH & AUDIT REPORT"
+        36, 762, "CONFIDENTIAL | PERSONAL FINANCIAL HEALTH & AUDIT REPORT"
     )
     self.setStrokeColor(colors.HexColor("#cbd5e1"))
     self.setLineWidth(0.5)
     self.line(36, 754, 576, 754)
 
     self.setFont("Helvetica", 8)
-    self.drawString(36, 25, "Generated via Personal FinAI App")
+    self.drawString(36, 25, "Generated via AI Financial Mobile App")
     page_str = f"Page {self._pageNumber} of {page_count}"
     self.drawRightString(576, 25, page_str)
     self.line(36, 35, 576, 35)
@@ -268,7 +255,7 @@ def generate_detailed_pdf_report(
       fontName="Helvetica-Bold",
   )
 
-  story.append(Paragraph("PERSONAL FINAI AUDIT REPORT", title_style))
+  story.append(Paragraph("AI PERSONAL FINANCIAL AUDIT REPORT", title_style))
   story.append(
       Paragraph(
           "Automated Expense Classification & Financial Growth Statement",
@@ -428,7 +415,7 @@ def scan_receipt_with_vision(
     image_bytes,
     image_type,
     api_key,
-    model_name="llama-3.2-11b-vision-preview",
+    model_name="qwen/qwen3.6-27b",
 ):
   client = Groq(api_key=api_key)
   compressed_bytes = compress_image_for_ocr(image_bytes)
@@ -484,11 +471,11 @@ def scan_single_file(file_obj, api_key):
 
     try:
       parsed = scan_receipt_with_vision(
-          img_bytes, img_ext, api_key, "llama-3.2-11b-vision-preview"
+          img_bytes, img_ext, api_key, "qwen/qwen3.6-27b"
       )
     except Exception:
       parsed = scan_receipt_with_vision(
-          img_bytes, img_ext, api_key, "llama-3.2-90b-vision-preview"
+          img_bytes, img_ext, api_key, "qwen/qwen3.6-27b"
       )
 
     return {"success": True, "file_name": file_name, "data": parsed}
@@ -530,7 +517,7 @@ CATEGORIES = [
 st.markdown(
     """
 <div class="app-header">
-    <h2>📱 Personal FinAI</h2>
+    <h2>📱 FinAI Mobile</h2>
     <p>Smart Expense Tracking & Wealth Intelligence</p>
 </div>
 """,
@@ -717,7 +704,7 @@ with tab_entry:
                             """
 
               completion = client.chat.completions.create(
-                  model="llama-3.3-70b-versatile",
+                  model="openai/gpt-oss-120b",
                   messages=[{"role": "user", "content": prompt}],
                   temperature=0.1,
                   response_format={"type": "json_object"},
@@ -950,7 +937,7 @@ with tab_ai:
                     """
 
           completion = client.chat.completions.create(
-              model="llama-3.3-70b-versatile",
+              model="openai/gpt-oss-120b",
               messages=[{"role": "user", "content": prompt}],
               temperature=0.3,
               response_format={"type": "json_object"},
@@ -1022,7 +1009,7 @@ with tab_ai:
   st.download_button(
       label="📥 Download PDF Statement",
       data=pdf_bytes,
-      file_name="Personal_FinAI_Statement.pdf",
+      file_name="Financial_Health_Statement.pdf",
       mime="application/pdf",
       type="primary",
   )
